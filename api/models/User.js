@@ -34,6 +34,11 @@ module.exports = {
       phoneNumber: {
           type: 'string',
           allowNull: true
+      },
+      status : {
+          type:'string',
+          isIn:['ADMIN','PARTICULAR'],
+          required:true
       }
 
   },

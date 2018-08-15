@@ -5,7 +5,7 @@ module.exports={
     friendlyName: 'Create',
 
 
-    description: 'Create user.',
+    description: 'Create person.',
 
 
     inputs: {
@@ -36,12 +36,6 @@ module.exports={
             type: 'string',
             allowNull: true
         },
-        status : {
-            type:'string',
-            isIn:['ADMIN','PARTICULAR'],
-            required:true
-        }
-
     },
     exits: {
 
@@ -53,11 +47,11 @@ module.exports={
 
     fn:async function (inputs, exits) {
 
-        let user = await User.create(inputs).fetch()
+        let person = await Person.create(inputs).fetch()
 
-        if (!user) { return exits.notFound() }
+        if (!person) { return exits.notFound() }
 
-        return exits.success(user)
+        return exits.success(person)
     }
 
 

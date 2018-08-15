@@ -27,12 +27,24 @@ module.exports.routes = {
   '/': {
     view: 'pages/homepage'
   },
-  // user api
+
+  // auth api , particulars users access
+  'POST /api/auth/register':{action: 'auth/register'},
+  'POST /api/auth/login':{action: 'auth/login'},
+
+  // person api , only admins users access actions bellow
+  'POST /api/person/create':{action: 'person/create'},
+  'GET /api/person/find':{action: 'person/find'},
+  'GET /api/person/find-one/:id':{action: 'person/find-one'},
+
+  // user api , only admins users access actions bellow
   'POST /api/user/create':{action: 'user/create'},
   'GET /api/user/find':{action: 'user/find'},
   'GET /api/user/find-one/:id':{action: 'user/find-one'},
 
-  /***************************************************************************
+
+
+    /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
   * (See https://sailsjs.com/config/routes for examples.)                    *
