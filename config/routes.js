@@ -27,6 +27,10 @@ module.exports.routes = {
   '/': {
     view: 'pages/homepage'
   },
+  // user api
+  'POST /api/user/create':{action: 'user/create'},
+  'GET /api/user/find':{action: 'user/find'},
+  'GET /api/user/find-one/:id':{action: 'user/find-one'},
 
   /***************************************************************************
   *                                                                          *

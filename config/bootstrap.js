@@ -19,7 +19,7 @@ module.exports.bootstrap = async function(done) {
 
    if(await  User.count() > 0){return done()}
 
-   await User.create({
+   let user = await User.create({
        lastName:'HOUNSA',
        firstName:'Nérice',
        password:'pwd29',
@@ -27,7 +27,9 @@ module.exports.bootstrap = async function(done) {
        email:'nericeeno@gmail.com',
        profession:'developer',
        phoneNumber:'+229 96 82 01 90'
-   })
+   }).fetch()
+
+    console.log("fake user created => ", user)
 
   // By convention, this is a good place to set up fake data during development.
   //

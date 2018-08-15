@@ -38,7 +38,7 @@ module.exports.blueprints = {
 
   // shortcuts: true,
 
-    prefix:'/api', 
+    prefix:'/api',
 
-    pluralize : true,
+    //pluralize : true,
 };
