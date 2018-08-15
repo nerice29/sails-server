@@ -5,6 +5,8 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+const _ = require('lodash');
+
 module.exports = {
 
   attributes: {
@@ -42,6 +44,28 @@ module.exports = {
       }
 
   },
+    customToJSON: function () {
+
+      this.fullname = `${_.capitalize(this.firstName)} ${(this.lastName||'').toUpperCase()}`
+      return this;
+    },
+    beforeCreate: function (valueSet, cb) {
+        nomarlizerName(valueSet)
+        cb()
+    },
+    beforeUpdate: function (valueSet, cb) {
+        nomarlizerName(valueSet)
+        cb()
+    },
 
 };
 
+function nomarlizerName (valueSet) {
+
+    if (valueSet.lastName) {
+        valueSet.lastName = (valueSet.lastName||'').toUpperCase()
+    }
+    if (valueSet.firstName) {
+        valueSet.firstName = _.capitalize(valueSet.firstName)
+    }
+}
