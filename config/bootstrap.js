@@ -11,6 +11,24 @@
 
 module.exports.bootstrap = async function(done) {
 
+    // Don't seed fake data when running in production.
+    if (process.env.NODE_ENV === 'production') {
+        return done();
+    }
+
+
+   if(await  User.count() > 0){return done()}
+
+   await User.create({
+       lastName:'HOUNSA',
+       firstName:'Nérice',
+       password:'pwd29',
+       sex:'M',
+       email:'nericeeno@gmail.com',
+       profession:'developer',
+       phoneNumber:'+229 96 82 01 90'
+   })
+
   // By convention, this is a good place to set up fake data during development.
   //
   // For example:
