@@ -1,4 +1,5 @@
 
+const jwt = require('jsonwebtoken');
 
 module.exports={
 
@@ -57,7 +58,18 @@ module.exports={
 
         if (!user) { return exits.notFound() }
 
-        return exits.success(user)
+        let expireDate= Math.floor(Date.now() / 1000) + (60 * 60) //1 heure
+        let token = await jwt.sign({exp:expireDate,data:user},'_secret')
+        if(!token){exits.error("user authorization failed")}
+
+        let credential=await Token.create({
+            owner: user.id,
+            token: token,
+            tokenExpireDate:expireDate
+        })
+        console.log("api:auth::register:::credential=>",credential)
+        this.req.user=user
+        return exits.success(token)
     }
 
 

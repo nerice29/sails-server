@@ -8,6 +8,7 @@
  * For more information on bootstrapping your app, check out:
  * https://sailsjs.com/config/bootstrap
  */
+const jwt = require('jsonwebtoken');
 
 module.exports.bootstrap = async function(done) {
 
@@ -43,6 +44,16 @@ module.exports.bootstrap = async function(done) {
     }).fetch()
 
     console.log("fake admin user => ", user)
+    let expireDate= Math.floor(Date.now() / 1000) + (60 * 60) //1 heure
+    let token = await jwt.sign({exp:expireDate,data:user},'_secret')
+    if(!token){exits.error("user authorization failed")}
+
+    let credential=await Token.create({
+        owner: user.id,
+        token: token,
+        tokenExpireDate:expireDate
+    }).fetch()
+    //console.log("bootstrap:::credential=>",credential)
 
   // By convention, this is a good place to set up fake data during development.
   //

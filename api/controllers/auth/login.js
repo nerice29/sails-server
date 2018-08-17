@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 
 module.exports={
 
@@ -28,13 +29,28 @@ module.exports={
 
     fn : async function(inputs,exits){
 
-       let user = await User.findOne({
-           firstName : inputs.firstName,
-           password : inputs.password
-       })
+       let user = await User.findOne({firstName : inputs.firstName})
 
         if(!user){return exits.notFound()}
 
-        return exits.success(user)
+        console.log("user found .password =>",user.password)
+        if(user.password===inputs.password){
+            let token = await Token.findOne({owner:user.id})
+            if(!token){return exits.error("no authorization for this user")}
+            this.req.user=user
+            return exits.success(token)
+        }else{
+            return exits.error("password not matched")
+        }
+        /*bcrypt.compare(inputs.password,user.password, async function(err, res) {
+            if(err){return exits.error("password error")}
+            console.log("result =>",res)
+            if(!res){return exits.error("password not matched")}
+            let token = await Token.findOne({owner:user.id})
+            if(!token){return exits.error("no authorization for this user")}
+            this.req.user=user
+            return exits.success(token)
+        });*/
+
     }
 }

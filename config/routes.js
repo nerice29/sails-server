@@ -29,11 +29,11 @@ module.exports.routes = {
   },
 
   // auth api , particulars users access
-  'POST /api/auth/register':{action: 'auth/register'},
+
   'POST /api/auth/login':{action: 'auth/login'},
 
   // person api , only admins users access actions bellow
-  'POST /api/person/create':{action: 'person/create'},
+  'POST /api/person/register':{action: 'person/register'},
   'GET /api/person/find':{action: 'person/find'},
   'GET /api/person/find-one/:id':{action: 'person/find-one'},
 

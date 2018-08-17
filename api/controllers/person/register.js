@@ -1,11 +1,15 @@
 
+const jwt = require('jsonwebtoken');
 module.exports={
 
-    friendlyName:'register',
+    friendlyName: 'Create',
 
-    description : 'register person',
 
-    inputs : {
+    description: 'Create person.',
+
+
+    inputs: {
+
         lastName: {
             type: 'string',
             required: true
@@ -33,13 +37,19 @@ module.exports={
             allowNull: true
         },
     },
-    exits : {
+    exits: {
 
+        notFound: {
+            description: 'The specified user was found in the database.',
+            responseType: 'notFound'
+        }
     },
 
-    fn : async function(inputs,exits){
+    fn:async function (inputs, exits) {
 
-        let person=await Person.create(inputs).fetch()
+        let person = await Person.create(inputs).fetch()
+
+        if (!person) { return exits.notFound() }
 
         if(! person){return exits.error("cannot create person ! ")}
 
@@ -55,7 +65,20 @@ module.exports={
             phoneNumber:person.phoneNumber,
             status:'PARTICULAR'
         }).fetch()
+        if(!user){return exits.error("user creation failed")}
+        let expireDate= Math.floor(Date.now() / 1000) + (60 * 60) //1 heure
+        let token = await jwt.sign({exp:expireDate,data:user},'_secret')
+        if(!token){exits.error("user authorization failed")}
 
-        return exits.success(user)
+        let credential=await Token.create({
+            owner: user.id,
+            token: token,
+            tokenExpireDate:expireDate
+        }).fetch()
+        console.log("api:auth::register:::credential=>",credential)
+        this.req.user=user
+        return exits.success(token)
     }
+
+
 }

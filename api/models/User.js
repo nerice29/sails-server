@@ -6,6 +6,7 @@
  */
 
 const _ = require('lodash');
+const bcrypt = require('bcrypt');
 
 module.exports = {
 
@@ -46,15 +47,36 @@ module.exports = {
   },
     customToJSON: function () {
 
-      this.fullname = `${_.capitalize(this.firstName)} ${(this.lastName||'').toUpperCase()}`
-      return this;
+      let type = this.type;
+      let omitForParticular=['password']
+      this.fullName = `${_.capitalize(this.firstName)} ${(this.lastName||'').toUpperCase()}`
+
+      switch (type){
+          case 'PARTICULAR': return (_.omit(this,omitForParticular));
+          case 'ADMIN': return this;
+          default : return (_.omit(this,omitForParticular));
+      }
+
+
     },
     beforeCreate: function (valueSet, cb) {
         nomarlizerName(valueSet)
+        // Hash password
+        bcrypt.hash(valueSet.password, 10, function (err, hash) {
+            console.log("password hashed => ",hash)
+            if (err) return cb(err);
+            valueSet.password = hash;
+            console.log("value set .password after hash =>", valueSet.password)
+        });
         cb()
     },
     beforeUpdate: function (valueSet, cb) {
         nomarlizerName(valueSet)
+        // Hash password
+        bcrypt.hash(valueSet.password, 10, function (err, hash) {
+            if (err) return cb(err);
+            valueSet.password = hash;
+        });
         cb()
     },
 
