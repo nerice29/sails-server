@@ -32,7 +32,7 @@ module.exports.routes = {
 
   'POST /api/auth/login':{action: 'auth/login'},
 
-  // person api , only admins users access actions bellow
+  // person api
   'POST /api/person/register':{action: 'person/register'},
   'GET /api/person/find':{action: 'person/find'},
   'GET /api/person/find-one/:id':{action: 'person/find-one'},

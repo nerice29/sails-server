@@ -1,4 +1,5 @@
 jwt = require("jsonwebtoken");
+let status = ["ADMIN","SUPER_ADMIN","APPLICATION","CLIENT"]
 
 module.exports= async function isAuthorized(req, res, next) {
 
@@ -19,14 +20,32 @@ module.exports= async function isAuthorized(req, res, next) {
                 return res.forbidden("Error authenticating, please login again");
         }
 
-        console.log("api:policies:isAuthorized:decode =>",decoded)
+        //console.log("api:policies:isAuthorized:decode =>",decoded)
 
-        let user = await  findOne(decoded.id)
+        let user= await User.find({id:decoded.id})
+        user=user[0]
+        if(!user){return res.status(401).json({
+                code:'ACCESS_DENIED',
+                message:'User not found'
+            })}
+            console.log("user",user)
+        req.isAutentificated = true
+        if(status.some((s)=>s===user.status)){
+            console.log("make it")
+            req[`is${user.status}`]=true
 
-        if(!user){return res.serverError("User not found");}
+        }
 
-        req.user = user;
+        req.token = {
+            id: user.id,
+            username: user.fullName,
+            user:user,
+            roles:[],
+            permissions:[],
+            key: token
+        }
+        next();
 
     })
-    next();
+
 }

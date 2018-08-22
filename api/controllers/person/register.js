@@ -76,7 +76,14 @@ module.exports={
             tokenExpireDate:expireDate
         }).fetch()
         console.log("api:auth::register:::credential=>",credential)
-        this.req.user=user
+        this.req.token={
+            id: user.id,
+            username: user.fullName,
+            user,
+            roles:[],
+            permissions:[],
+            key: credential.token
+        }
         return exits.success(token)
     }
 

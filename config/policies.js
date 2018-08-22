@@ -20,6 +20,5 @@ module.exports.policies = {
   // '*': true,
   '*': ['isAuthorized'],
   'auth/login': true,
-  'person/register':true,
-  'outlook/open' : true,
+  'person/register':true
 };
