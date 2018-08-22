@@ -40,7 +40,7 @@ module.exports = {
       },
       status : {
           type:'string',
-          isIn:['ADMIN','PARTICULAR'],
+          isIn:['ADMIN','PARTICULAR','APPLICATION'],
           required:true
       }
 
@@ -63,10 +63,9 @@ module.exports = {
         nomarlizerName(valueSet)
         // Hash password
         bcrypt.hash(valueSet.password, 10, function (err, hash) {
-            console.log("password hashed => ",hash)
             if (err) return cb(err);
             valueSet.password = hash;
-            console.log("value set .password after hash =>", valueSet.password)
+
         });
         cb()
     },

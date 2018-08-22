@@ -20,5 +20,8 @@ module.exports.policies = {
   // '*': true,
   '*': ['isAuthorized'],
   'auth/login': true,
-  'person/register':true
+  'person/register':true,
+  'user/create':['isAdmin'],
+  'user/find':['isAdmin'],
+  'user/find-one':['isAdmin']
 };

@@ -30,7 +30,7 @@ module.exports.bootstrap = async function(done) {
        phoneNumber:'+229 96 82 01 90'
    }).fetch()
 
-    console.log("fake person created => ", person)
+    //console.log("fake person created => ", person)
 
     let user=await User.create({
         lastName:person.lastName,
@@ -43,7 +43,7 @@ module.exports.bootstrap = async function(done) {
         status:'ADMIN'
     }).fetch()
 
-    console.log("fake admin user => ", user)
+    //console.log("fake admin user => ", user)
     let expireDate= Math.floor(Date.now() / 1000) + (60 * 60) //1 heure
     let token = await jwt.sign({exp:expireDate,data:user},'_secret')
     if(!token){exits.error("user authorization failed")}
