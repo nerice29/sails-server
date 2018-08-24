@@ -43,7 +43,7 @@ module.exports.routes = {
   'GET /api/user/find-one/:id':{action: 'user/find-one'},
 
   // outlook api
-  'GET /api/outlook/auth':{action: 'outlook/auth'},
+  'POST /api/outlook/auth':{action: 'outlook/auth'},
   'GET /api/outlook/open':{action: 'outlook/open'},
 
 

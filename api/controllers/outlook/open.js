@@ -30,20 +30,61 @@ module.exports = {
         }
     },
     fn: async function (inputs, exits) {
-
+        console.log (`outlook open : inputs code : ${inputs.code}`)
 
         if (inputs.code) {
-
+            let client = JSON.parse(inputs.state)
+            console.log ('outlook open : client', client )
+            let outlookClient = await OutlookClient.findOne(client.id)
+            if (!outlookClient) {
+                return exits.error ({
+                    code: 'USER_REQUEST_NOT_FOUND',
+                    message: 'CLIENT INCONNU',
+                })
+            }
             try {
 
-                let token = await sails.helpers.outlook.getTokenFromCode.with({auth_code: inputs.code})
+                let token = await sails
+                    .helpers
+                    .outlook
+                    .getTokenFromCode
+                    .with({
+                        auth_code: inputs.code
+                    })
+                    .intercept((err) => {
+                    console.log('ERROR:OUTLOOK::INTERCEPT',err)
+                    return err
+                })
                 if (!token) {
                     return exits.error ({
                         code: 'USER_REQUEST_TOKEN_INVALID',
                         message: 'Token outlook invalid',
                     })
                 }
-                // Initialize Graph client
+                console.log("token ",token)
+                const result = await sails
+                    .helpers
+                    .outlook
+                    .setCredentials
+                    .with ({
+                        token: token.token.access_token,
+                        tokenExpireDate: token.token.expires_at.getTime (),
+                        idToken: token.token.id_token,
+                        refreshToken: token.token.refresh_token,
+                        clientId: outlookClient.owner,
+                    })
+                if (!result) {
+                    return exits.error ({
+                        code: 'USER_AUTH_OBJECT_ERROR',
+                        message: 'Error of create of retrieve access outlook user',
+                    })
+                }
+
+                console.log ('outlook client new access =>', result)
+
+                return exits.redirect(outlookClient.clientRedirectUrl)
+
+               /* // Initialize Graph client
                 const client = graph.Client.init({
                     authProvider: (done) => {
                         done(null, token);
@@ -85,7 +126,7 @@ module.exports = {
                     .post(event, (err, res) => {
                         if(err){return exits.error("error")}
                         return exits.success(res)
-                    })
+                    })*/
                 /*try {
                     // Get the first 10 events for the coming week
                     const result = await client
@@ -104,10 +145,12 @@ module.exports = {
 
 
             } catch (e) {
-                console.log('ERROR:OUTLOOK::OPEN',e)
+
                 return exits.serverError(e.message)
             }
 
+        }else{
+            return exits.error("BAD OUTLOOK SERVER REQUEST")
         }
 
 

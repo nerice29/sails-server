@@ -23,5 +23,6 @@ module.exports.policies = {
   'person/register':true,
   'user/create':['isAdmin'],
   'user/find':['isAdmin'],
-  'user/find-one':['isAdmin']
+  'user/find-one':['isAdmin'],
+  'outlook/open':true
 };
