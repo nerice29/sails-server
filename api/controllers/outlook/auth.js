@@ -28,6 +28,7 @@ module.exports = {
     fn: async function (inputs, exits) {
 
         try{
+
             let outlookClient = await OutlookClient.create ({
                 owner: this.req.token.user.id,
                 clientRedirectUrl: inputs.clientRedirectUrl,

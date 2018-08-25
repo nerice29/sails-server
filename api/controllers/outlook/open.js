@@ -30,16 +30,16 @@ module.exports = {
         }
     },
     fn: async function (inputs, exits) {
-        console.log (`outlook open : inputs code : ${inputs.code}`)
+        //console.log (`outlook open : inputs code : ${inputs.code}`)
 
-        if (inputs.code) {
+        if (inputs.code && inputs.state) {
             let client = JSON.parse(inputs.state)
-            console.log ('outlook open : client', client )
+           // console.log ('outlook open : client', client )
             let outlookClient = await OutlookClient.findOne(client.id)
             if (!outlookClient) {
                 return exits.error ({
                     code: 'USER_REQUEST_NOT_FOUND',
-                    message: 'CLIENT INCONNU',
+                    message: 'FAKE USER',
                 })
             }
             try {
@@ -61,7 +61,7 @@ module.exports = {
                         message: 'Token outlook invalid',
                     })
                 }
-                console.log("token ",token)
+                //console.log("token ",token)
                 const result = await sails
                     .helpers
                     .outlook
@@ -76,11 +76,26 @@ module.exports = {
                 if (!result) {
                     return exits.error ({
                         code: 'USER_AUTH_OBJECT_ERROR',
-                        message: 'Error of create of retrieve access outlook user',
+                        message: 'Error of create or retrieve access outlook user',
                     })
                 }
 
-                console.log ('outlook client new access =>', result)
+               // console.log ('outlook client new access =>', result)
+                let event = await sails
+                    .helpers
+                    .outlook
+                    .postEvent
+                    .with({
+                        clientId:outlookClient.owner,
+                        object:'object of post',
+                        date : '2018-08-25',
+                        startTime : '21:00',
+                        endTime : '22:00',
+                        body : 'the body of post'
+                    })
+                if(!event){return exits.error('CANNOT CREATE EVENT')}
+
+                console.log("event created => ",event)
 
                 return exits.redirect(outlookClient.clientRedirectUrl)
 
@@ -146,7 +161,7 @@ module.exports = {
 
             } catch (e) {
 
-                return exits.serverError(e.message)
+                return exits.error(e.message)
             }
 
         }else{
