@@ -42,12 +42,6 @@ module.exports.routes = {
   'GET /api/user/find':{action: 'user/find'},
   'GET /api/user/find-one/:id':{action: 'user/find-one'},
 
-  // outlook api
-  'GET /api/outlook/auth':{action: 'outlook/auth'},
-  'GET /api/outlook/open':{action: 'outlook/open'},
-
-
-
     /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
