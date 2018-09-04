@@ -24,5 +24,4 @@ module.exports.policies = {
   'user/create':['isAdmin'],
   'user/find':['isAdmin'],
   'user/find-one':['isAdmin'],
-  'outlook/open' : true,
 };
