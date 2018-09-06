@@ -20,7 +20,8 @@ module.exports = {
 	const ewsConfig = {
 	  username: 'nerice@sogelib.onmicrosoft.com',
 	  password: 'Sogelib29@12',
-	  host: 'https://ews.sogelib.onmicrosoft.com'
+	  host: 'https://outlook.office365.com',
+	  auth: 'basic'
 	};
 	 
 	// initialize node-ews
@@ -38,9 +39,11 @@ module.exports = {
 	 
 	// query EWS and print resulting JSON to console
 	let result= await ews.run(ewsFunction, ewsArgs)
-	
-	if(!result){return exits.error()}
 
+	if(!result){
+		console.log("erreur list")
+		return exits.error()}
+    console.log("list=>",result)
 	return exits.success(JSON.stringify(result))
 
   }
