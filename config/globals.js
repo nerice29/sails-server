@@ -31,6 +31,8 @@ module.exports.globals = {
 
   async: require('async'),
 
+  /*fs:require ('fs'),*/
+
   /****************************************************************************
   *                                                                           *
   * Whether to expose each of your app's models as global variables.          *

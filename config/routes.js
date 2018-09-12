@@ -42,6 +42,10 @@ module.exports.routes = {
   'GET /api/user/find':{action: 'user/find'},
   'GET /api/user/find-one/:id':{action: 'user/find-one'},
 
+  //File
+
+  'GET /api/fs/read-file':{action:'file/read-file'},
+
     /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
