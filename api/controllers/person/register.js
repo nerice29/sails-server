@@ -84,7 +84,7 @@ module.exports={
             permissions:[],
             key: credential.token
         }
-        return exits.success(token)
+        return exits.success({token})
     }
 
 

@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 module.exports={
 
     friendlyName:'login',
@@ -51,6 +51,8 @@ module.exports={
                 permissions:[],
                 key: credential.token
             }
+            console.log("api:auth::register:::credential=>",credential)
+            this.req.user=user
             return exits.success({token})
         }else{
             return exits.error("password not matched")
