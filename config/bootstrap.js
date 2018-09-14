@@ -17,7 +17,12 @@ module.exports.bootstrap = async function(done) {
         return done();
     }
 
+   let schedule= require('node-schedule');
 
+   Object.keys(sails.config.crontab).forEach(function(key){
+      let val = sails.config.crontab[key]
+      schedule.scheduleJob(key,val)
+   })
    if(await  Person.count() > 0){return done()}
 
    let person = await Person.create({
