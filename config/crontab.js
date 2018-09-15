@@ -2,8 +2,9 @@
 
 module.exports.crontab={
 
-	'* * * * * *' : function(){
+	'0 */1 * * * *' : async function(){
 		//require('../api')
-		require('../crontab/job.js').run()
+		//require('./crontab/job.js').run()
+        await sails.helpers.job()
 	}
 }
