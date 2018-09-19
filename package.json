@@ -19,6 +19,7 @@
     "sails-hook-orm": "^2.0.0-16",
     "sails-hook-sockets": "^1.4.0",
     "sails-mongo": "^1.0.1",
+    "sails-postgresql": "^1.0.1",
     "simple-oauth2": "^2.2.1"
   },
   "devDependencies": {
