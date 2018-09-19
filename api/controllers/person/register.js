@@ -53,7 +53,7 @@ module.exports={
 
         if(! person){return exits.error("cannot create person ! ")}
 
-        //TODO : send confirmation mail to person when he confirm register him as user
+        //TODO : send confirmation gmail to person when he confirm register him as user
 
         let user = await User.create({
             lastName:person.lastName,

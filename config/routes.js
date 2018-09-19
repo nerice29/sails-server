@@ -42,6 +42,11 @@ module.exports.routes = {
   'GET /api/user/find':{action: 'user/find'},
   'GET /api/user/find-one/:id':{action: 'user/find-one'},
 
+  //MAIL
+
+  'POST /api/mail/send':{action:'gmail/send'},
+
+
 
 
 
