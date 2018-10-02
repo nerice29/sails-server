@@ -42,6 +42,8 @@ module.exports.routes = {
   'GET /api/user/find':{action: 'user/find'},
   'GET /api/user/find-one/:id':{action: 'user/find-one'},
 
+  'GET /api/ews/get-members':{action:'ews/get-members'},
+
 
 
 
