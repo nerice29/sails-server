@@ -9,7 +9,7 @@
  * https://sailsjs.com/config/bootstrap
  */
 const jwt = require('jsonwebtoken');
-
+const schedule= require('node-schedule');
 module.exports.bootstrap = async function(done) {
 
     // Don't seed fake data when running in production.
@@ -17,7 +17,12 @@ module.exports.bootstrap = async function(done) {
         return done();
     }
 
+   // schedule.scheduleJob(sails.helpers.job.key,await sails.helpers.job())
 
+   Object.keys(sails.config.crontab).forEach(async function(key){
+      let val = await  sails.config.crontab[key]
+      schedule.scheduleJob(key,val)
+   })
    if(await  Person.count() > 0){return done()}
 
    let person = await Person.create({
