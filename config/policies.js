@@ -21,7 +21,10 @@ module.exports.policies = {
   '*': ['isAuthorized'],
   'auth/login': true,
   'person/register':true,
+
+  'outlook/open' : true,
+
   'user/create':['isAdmin'],
   'user/find':['isAdmin'],
-  'user/find-one':['isAdmin'],
+  'user/find-one':['isAdmin']
 };

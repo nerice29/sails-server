@@ -31,7 +31,6 @@ module.exports= async function isAuthorized(req, res, next) {
             console.log("user",user)
         req.isAutentificated = true
         if(status.some((s)=>s===user.status)){
-            console.log("make it")
             req[`is${user.status}`]=true
 
         }

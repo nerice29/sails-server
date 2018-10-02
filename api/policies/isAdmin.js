@@ -7,9 +7,10 @@ module.exports = async function(req, res, next){
         if(!req.isADMIN){
             return res.status(401).json({
                 code: 'AUTH_ADMIN_INVALID',
-                message: 'Invalid admin Token!'
+                message: 'CURRENT USER IS NOT ADMIN!'
             });
         }
+        console.log("VALID USER TYPE ADMIN")
         next()
     })
 }

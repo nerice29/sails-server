@@ -38,6 +38,8 @@ module.exports={
             let expireDate= Math.floor(Date.now() / 1000) + (60 * 60) //1 heure
             let token = await jwt.sign({exp:expireDate,data:user},'_secret')
             if(!token){exits.error("user authorization failed")}
+            console.log("api:auth::register:::credential=>",credential)
+            this.req.user=user
             let credential=await Token
                 .update({owner:user.id})
                 .set({token:token, tokenExpireDate:expireDate})
@@ -51,8 +53,6 @@ module.exports={
                 permissions:[],
                 key: credential.token
             }
-            console.log("api:auth::register:::credential=>",credential)
-            this.req.user=user
             return exits.success({token})
         }else{
             return exits.error("password not matched")
